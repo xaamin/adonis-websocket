@@ -2,19 +2,8 @@
   <a href="http://adonisjs.com"><img src="https://cloud.githubusercontent.com/assets/2793951/21009311/3d5dd062-bd46-11e6-9f01-a1c2ff6fad37.png" alt="AdonisJs WebSocket"></a>
 </p>
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/adonis-websocket"><img src="https://img.shields.io/npm/v/adonis-websocket.svg?style=flat-square" alt="Version"></a>
-  <a href="https://travis-ci.org/adonisjs/adonis-websocket"><img src="https://img.shields.io/travis/adonisjs/adonis-websocket/master.svg?style=flat-square" alt="Build Status"></a>
-  <a href="https://coveralls.io/github/adonisjs/adonis-websocket?branch=master"><img src="https://img.shields.io/coveralls/adonisjs/adonis-websocket/master.svg?style=flat-square" alt="Coverage Status"></a>
-  <a href="https://www.npmjs.com/package/adonis-websocket"><img src="https://img.shields.io/npm/dt/adonis-websocket.svg?style=flat-square" alt="Downloads"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/npm/l/adonis-websocket.svg?style=flat-square" alt="License"></a>
-</p>
-
-<p align="center">
-  <a href="https://gitter.im/adonisjs/adonis-framework"><img src="https://img.shields.io/badge/gitter-join%20us-1DCE73.svg?style=flat-square" alt="Gitter"></a>
-  <a href="https://trello.com/b/yzpqCgdl/adonis-for-humans"><img src="https://img.shields.io/badge/trello-roadmap-89609E.svg?style=flat-square" alt="Trello"></a>
-  <a href="https://www.patreon.com/adonisframework"><img src="https://img.shields.io/badge/patreon-support%20AdonisJs-brightgreen.svg?style=flat-square" alt="Support AdonisJs"></a>
-</p>
+[![Coverage Status](https://coveralls.io/repos/github/NortonPerson/adonis-websocket/badge.svg?branch=master)](https://coveralls.io/github/NortonPerson/adonis-websocket?branch=master)
+[![Build Status](https://travis-ci.org/NortonPerson/adonis-websocket.svg?branch=master)](https://travis-ci.org/NortonPerson/adonis-websocket)
 
 <br>
 Adonis Websocket is the official **websockets** provider for AdonisJs. It lets you easily setup/authenticate channels and rooms with elegant syntax and power of ES2015 generators.:rocket:
