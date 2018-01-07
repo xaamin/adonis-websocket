@@ -15,14 +15,12 @@ const Mixins = require('./Mixins')
 const CE = require('../Exceptions')
 const Presence = require('../Presence')
 const util = require('../../lib/util')
-const Resetable = require('../../lib/Resetable')
+const Resetable = require('resetable')
 
 class Channel {
-
-  constructor (io, Request, Session, name, closure) {
+  constructor (io, Context, name, closure) {
     this.io = name === '/' ? io : io.of(name)
     this.presence = new Presence(this.io)
-
     /**
      * A reference to the closure, it will be executed after
      * all middleware method.
@@ -41,14 +39,11 @@ class Channel {
     this._closureIsAClass = util.isClass(closure)
 
     /**
-     * Adonis Request class to be initiated upon new socket
-     * connection. It makes it easy to read info from the
-     * request similar to the way we do it in controllers.
+     * Adonis Context class to be initiated upon new socket
      *
      * @type {Class}
      */
-    this.Request = Request
-    this.Session = Session
+    this.Context = Context
 
     /**
      * Custom middleware to be executed for each socket
@@ -65,7 +60,7 @@ class Channel {
      *
      * @type {Object}
      */
-    this._wsPool = {}
+    this._ctxPool = {}
 
     /**
      * Runtime variable to store the scope
@@ -120,7 +115,7 @@ class Channel {
      * Hook into new connection and invoke the
      * channel closure.
      */
-    this.io.on('connection', (socket) => this._onConnection(this._wsPool[socket.id]))
+    this.io.on('connection', (socket) => this._onConnection(this._ctxPool[socket.id]))
   }
 
   /**
@@ -208,7 +203,7 @@ class Channel {
    * @return {Object}
    */
   get (id) {
-    return this._wsPool[id]
+    return this._ctxPool[id]
   }
 
   /**

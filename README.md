@@ -2,32 +2,15 @@
   <a href="http://adonisjs.com"><img src="https://cloud.githubusercontent.com/assets/2793951/21009311/3d5dd062-bd46-11e6-9f01-a1c2ff6fad37.png" alt="AdonisJs WebSocket"></a>
 </p>
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/adonis-websocket"><img src="https://img.shields.io/npm/v/adonis-websocket.svg?style=flat-square" alt="Version"></a>
-  <a href="https://travis-ci.org/adonisjs/adonis-websocket"><img src="https://img.shields.io/travis/adonisjs/adonis-websocket/master.svg?style=flat-square" alt="Build Status"></a>
-  <a href="https://coveralls.io/github/adonisjs/adonis-websocket?branch=master"><img src="https://img.shields.io/coveralls/adonisjs/adonis-websocket/master.svg?style=flat-square" alt="Coverage Status"></a>
-  <a href="https://www.npmjs.com/package/adonis-websocket"><img src="https://img.shields.io/npm/dt/adonis-websocket.svg?style=flat-square" alt="Downloads"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/npm/l/adonis-websocket.svg?style=flat-square" alt="License"></a>
-</p>
-
-<p align="center">
-  <a href="https://gitter.im/adonisjs/adonis-framework"><img src="https://img.shields.io/badge/gitter-join%20us-1DCE73.svg?style=flat-square" alt="Gitter"></a>
-  <a href="https://trello.com/b/yzpqCgdl/adonis-for-humans"><img src="https://img.shields.io/badge/trello-roadmap-89609E.svg?style=flat-square" alt="Trello"></a>
-  <a href="https://www.patreon.com/adonisframework"><img src="https://img.shields.io/badge/patreon-support%20AdonisJs-brightgreen.svg?style=flat-square" alt="Support AdonisJs"></a>
-</p>
+[![Coverage Status](https://coveralls.io/repos/github/NortonPerson/adonis-websocket/badge.svg?branch=master)](https://coveralls.io/github/NortonPerson/adonis-websocket?branch=master)
+[![Build Status](https://travis-ci.org/NortonPerson/adonis-websocket.svg?branch=master)](https://travis-ci.org/NortonPerson/adonis-websocket)
 
 <br>
-Adonis Websocket is the official **websockets** provider for AdonisJs. It let you easily setup/authenticate channels and rooms with elegant syntax and power of ES2015 generators.:rocket:
+Adonis Websocket is the official **websockets** provider for AdonisJs. It lets you easily setup/authenticate channels and rooms with elegant syntax and power of ES2015 generators.:rocket:
 
 <br>
 <hr>
 <br>
-
-## Table of Contents
-
-* [Setup](#setup)
-* [Getting Started](#getting-started)
-* [Contribution Guidelines](#contribution-guidelines)
 
 <br>
 ## <a name="requirements"></a>Setup
@@ -39,7 +22,7 @@ npm i --save adonis-websocket
 ```
 
 ### Setting up the provider
-All providers are registered inside `bootstrap/app.js` file.
+All providers are registered inside `start/app.js` file.
 
 ```javascript
 const providers = [
@@ -48,7 +31,7 @@ const providers = [
 ```
 
 ### Setting up the alias
-Aliases makes it easier to reference a namespace with a short unique name. Aliases are also registered inside `bootstrap/app.js` file.
+Aliases makes it easier to reference a namespace with a short unique name. Aliases are also registered inside `start/app.js` file.
 
 ```javascript
 const aliases = {
@@ -58,34 +41,141 @@ const aliases = {
 
 Setup process is done. Let's use the **Ws** provider now.
 
-<br>
-## <a name="getting-started"></a>Getting Started
 
-Feel free to skip this section and read the [official documentation](http://adonisjs.com/docs/websocket), if you are on version `3.2` or later.
+#### Create file `socket.js` and `ws.js`
+* In folder `start` create file `socket.js` and `ws.js`
+```bash
+touch start/socket.js
+touch start/ws.js
+```
 
-If you are using older version of `adonis-app`. You are supposed to create couple of directories in order to setup the ecosystem.
+- `socket.js` register chanel
+- `ws.js` kennel of websocket, i be can config middleware in here
 
-### Bash Commands
-Below are the bash commands to create required directories. Equivalent commands for windows can be used.
+### Chanel Base
+* Create Channel base listen connection to path of websocket, in file `socket.js`
+
+```js
+const Ws = use('Ws')
+
+// Ws.channel('/chat', function (contextWs) {
+Ws.channel('/chat', function ({ socket }) {
+  // here you go
+})
+
+```
+
+### Add Middleware
+* Config in file `ws` name and global
+
+#### Middlleware global
+```js
+const Ws = use('Ws')
+
+const globalMiddlewareWs = [
+  'Adonis/Middleware/AuthInitWs'
+]
+
+const namedMiddlewareWs = {
+  auth: 'Adonis/Middleware/AuthWs'
+}
+
+Ws.global(globalMiddlewareWs)
+Ws.named(namedMiddlewareWs)
+```
+
+#### Middleware Channel
+
+* we have two middleware default is `Adonis/Middleware/AuthInitWs` and `Adonis/Middleware/AuthWs` using authentication is compatible with `Adonis Auth`
+
+```js
+Ws.channel('/chat', function ({ socket }) {
+  // here you go
+}).middleware(<name middleware | function>)
+```
+* middleware function
+```js
+Ws.channel('/chat', function ({ socket }) {
+  // here you go
+}).middleware(async fuction(context, next) {
+  ....
+  await next();
+})
+```
+
+### Create ControllerWs
+Create controller websocket is a Chanel
 
 ```bash
-mkdir app/Ws
-mkdir app/Ws/Controllers
-touch app/Ws/socket.js
+  adonis make:controller <Name>
+```
+and select
+
+```bash
+> For Websocket channel
+```
+### Struct Controller Ws
+* You can see controller in folder `app\Controllers\Ws`
+
+```js
+'use strict'
+
+class LocationController {
+  // constructor (ContextWs) {
+  constructor ({ socket, request }) {
+    console.log('constructor');
+    this.socket = socket
+    this.request = request
+  }
+
+  // listion event `ready`
+  onReady () {
+    console.log('ready');
+    this.socket.toMe().emit('my:id', this.socket.socket.id)
+  }
+
+  joinRoom(ContextWs, payload) {
+
+  }
+
+  leaveRoom(ContextWs, payload) {
+
+  }
+}
+
+module.exports = LocationController
 ```
 
-### Loading socket.js file.
-Next we need to do is loading the `socket.js` file when starting the server. Which will be inside `bootstrap/http.js` file. Paste the below line of code after `use(Helpers.makeNameSpace('Http', 'routes'))`
+### Structs `ContextWs`
+* Structs object ContextWs
 
-```javascript
-use(Helpers.makeNameSpace('Ws', 'socket'))
-```
+#### Attribute `socket`
+- `auth` is Object AddonisSocket
 
-Next, read the [official documentation](http://adonisjs.com/docs/websocket) :book:
+##### `AddonisSocket`
+- attribute `io` of socket.io
+- attribute `socket` of socket.io when client connect to Chanel
+- method `id` is `id` of socket
+- method `rooms` get list room
+- method `on` is `socket.on`
+- method `to` get socket of `id` connect
+- method `join` and `leave` is room
+- method `disconnect` disconnect chanel
+
+#### Attribute `auth`
+- `auth` is `Adonis Auth`
+
+#### Attribute `request`
+- `request` is `Adonis request`
+
+
+
 
 <br>
-## <a name="contribution-guidelines"></a>Contribution Guidelines
-
+<br>
+<br>
+<br>
+<hr>
 In favor of active development we accept contributions from everyone. You can contribute by submitting a bug, creating pull requests or even improving documentation.
 
 You can find a complete guide to be followed strictly before submitting your pull requests in the [Official Documentation](http://adonisjs.com/docs/contributing).
