@@ -1,6 +1,6 @@
 {
-  "name": "adonis-websocket",
-  "version": "1.0.4",
+  "name": "@xaamin/adonis-ws",
+  "version": "1.0.0",
   "description": "Adonisjs websockets support",
   "main": "index.js",
   "directories": {
@@ -18,10 +18,10 @@
     "websockets",
     "socketio"
   ],
-  "author": "adonisjs,amanvirk,norton",
+  "author": "adonisjs,amanvirk,norton,xaamin",
   "license": "MIT",
   "devDependencies": {
-    "@adonisjs/fold": "^4.0.5",
+    "@adonisjs/fold": "^4.0.7",
     "chai": "^3.5.0",
     "coveralls": "^2.11.15",
     "cz-conventional-changelog": "^2.1.0",
