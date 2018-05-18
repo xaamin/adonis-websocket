@@ -60,10 +60,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adonisjs/adonis-websocket.git"
+    "url": "git+https://github.com/xaamin/adonis-websocket.git"
   },
   "bugs": {
-    "url": "https://github.com/adonisjs/adonis-websocket/issues"
+    "url": "https://github.com/xaamin/adonis-websocket/issues"
   },
-  "homepage": "https://github.com/adonisjs/adonis-websocket#readme"
+  "homepage": "https://github.com/xaamin/adonis-websocket#readme"
 }
